@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		<!-- template渲染之后不会出现在界面上面 -->
+		<template v-if="status === 1">
+			<p>这是一段文本</p>
+			<p>这是一段文本</p>
+			<p>这是一段文本</p>
+		</template>
+	</div>
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el : '#app',
+			data : {
+				status : 1
+			}
+			
+		})
+	</script>
+</body>
+</html>

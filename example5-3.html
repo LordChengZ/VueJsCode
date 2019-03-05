@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		<button @click="addElement">添加元素</button><br/>
+		<button @click="filterElement">过滤元素</button><br/>
+		<ul>
+			<template v-for="book in books">
+				<li>书名：{{ book.name }}</li>
+				<li>作者：{{ book.author }}</li>
+			</template>
+			<!-- <li v-for="(book, index) in books">{{ index }} - {{ book.name }}</li> -->
+		</ul>
+		<span v-for="value in user">{{ value }}</span>
+		<ul>
+			<li v-for="(value, key, index) in user">
+				{{ index }} - {{ key }} : {{ value }}
+			</li>
+		</ul>
+		<span v-for="n in 10" style="margin-left: 5px">{{ n }}</span>
+		<ul>
+			<template v-for="book in filterBooks">
+				<li>书名：{{ book.name }}</li>
+				<li>作者：{{ book.author }}</li>
+			</template>
+		</ul>
+	</div>
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el : '#app',
+			data : {
+				books : [
+					{name : '《Vue.js 实践》', author : '梁瀞'},
+					{name : '《JavaScript 语言精粹》', author : 'Douglas Crockford'},
+					{name : '《JavaScript 高级程序设计》', author : 'Nicholas C.Zakas'}
+				],
+				user : {
+					name : 'Aresen',
+					gender : '男',
+					age : 26
+				}
+			},
+			methods : {
+				addElement : function () {
+					/*this.books.push({
+						name : '《CSS 揭秘》',
+						author : '[希] Lea Verou'
+					})*/
+					//通过索引直接设置项，修改数组长度，Vue 是不能检测到的
+					//解决方案 ： Vue.set; this.$set
+					this.$set(app.books, app.books.length, {
+						name : '《CSS 揭秘》',
+						author : '[希] Lea Verou'
+					})
+				},
+				filterElement : function () {
+					app.books = app.books.filter(function (item) {
+						return item.name.match(/JavaScript/);
+					})
+				}
+			},
+			computed : {
+				filterBooks : function () {
+					return this.books.filter(function (book) {
+						return book.name.match(/JavaScript/);
+					})
+				}
+			}
+			
+		})
+	</script>
+</body>
+</html>

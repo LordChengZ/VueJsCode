@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		<input type="text" v-model="message" placeholder="输入..." name="">
+		<p>输入的内容是： {{ message }}</p>
+		<textarea v-model="text" placeholder="输入..."></textarea>
+		<p style="white-space: pre">输入的内容是：{{ text }}</p>
+		<input type="text" @input="handleInput" name="">
+		<p>输入的内容是： {{ message1 }}</p>
+
+		<input type="radio" :checked="picked" name="">
+		<label>单选按钮</label>
+
+		<br>
+		<input type="radio" v-model="pickedName" value="html" name="" id="html">
+		<label for="html">HTML</label>
+
+		<input type="radio" v-model="pickedName" value="js" name="" id="js">
+		<label for="js">JavaScript</label>
+
+		<input type="radio" v-model="pickedName" value="css" name="" id="css">
+		<label for="css">CSS</label>
+		<p>选择的项是：{{ pickedName }}</p>
+
+		<input type="checkbox" v-model="checked" id="checked" id="checked">
+		<label for="checked">选择状态： {{ checked }}</label>
+
+		<br>
+		<input type="checkbox" v-model="checkedName" value="html" name="" id="html">
+		<label for="html">HTML</label>
+
+		<input type="checkbox" v-model="checkedName" value="js" name="" id="js">
+		<label for="js">JavaScript</label>
+
+		<input type="checkbox" v-model="checkedName" value="css" name="" id="css">
+		<label for="css">CSS</label>
+		<p>选择的项是：{{ checkedName }}</p>
+
+		<select v-model="selected">
+			<option>html</option>
+			<option value="js">JavaScript</option>
+			<option>css</option>
+		</select>
+		<p>选择的项是： {{ selected }}</p>
+
+		<select v-model="selectedName" multiple>
+			<option>html</option>
+			<option value="js">JavaScript</option>
+			<option>css</option>
+		</select>
+		<p>选择的项是： {{ selectedName }}</p>
+
+		<select v-model="selected">
+			<option v-for="option in options" :value="option.value">{{ option.text }}</option>
+			
+		</select>
+		<p>选择的项是： {{ selected}}</p>
+
+	</div>
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el : '#app',
+			data : {
+				message : '',
+				text : '',
+				message1 : '',
+				picked : true,
+				pickedName : 'js',
+				checked : false,
+				checkedName : ['html', 'css'],
+				selected : 'css',
+				selectedName : ['html', 'css'],
+				options : [
+					{
+						text : 'HTML',
+						value : 'html'
+					},
+					{
+						text : 'JavaScript',
+						value : 'js'
+					},
+					{
+						text : 'CSS',
+						value : 'css'
+					}
+				]
+			},
+			methods : {
+				handleInput : function (e) {
+					this.message1 = e.target.value;
+				}
+			}
+			
+		})
+	</script>
+</body>
+</html>

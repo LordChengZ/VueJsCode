@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		{{ date }}
+		<span v-pre>{{ ZZQ SB }}</span>
+		{{ number / 10 }}
+		{{ isOK ? '确定' : '取消' }}
+		{{ text.split(',').reverse().join(',') }}
+	</div>
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el : '#app',
+			data : {
+				date : new Date(),
+				number : 100,
+				isOK : false,
+				text : '123,456'
+			},
+			mounted : function () {
+				var _this = this;
+				this.timer = setInterval(function () {
+					_this.date = new Date();
+				}, 1000);
+			},
+			beforeDestory : function () {
+				if (this.timer) {
+					clearInterval(this.timer);
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		<my-component message="来自父组件的数据" warning-text="提示信息"></my-component>
+
+		<input type="text" name="" v-model="parentMessage">
+		<my-component1 :message1="parentMessage"></my-component1>
+
+		<br>
+		<!-- 如果你要直接传递数字、布尔值、数组、对象，而且不使用 v-bind ，传递的仅仅是字符串 -->
+		<my-component2 message2="[1,2,3]"></my-component2>
+		<my-component2 :message2="[1,2,3]"></my-component2>
+
+		<br>
+		<my-component3 :init-count="1"></my-component3>
+
+		<br>
+		<my-component4 :width="100"></my-component4>
+
+	</div>
+
+
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		Vue.component('my-component', {
+			//使用选项 prop 来声明需要从父级接收的数据，
+			props : ['message', 'warningText'],
+			template : '<div>{{ message }}{{ warningText }}</div>'
+		});
+
+		Vue.component('my-component1', {
+			props : ['message1'],
+			template : '<div>{{ message1 }}</div>'
+		});
+
+		Vue.component('my-component2', {
+			props : ['message2'],
+			template : '<div>{{ message2.length }}</div>'
+		});
+
+		Vue.component('my-component3', {
+			props : ['initCount'],
+			template : '<div>{{ count }}</div>',
+			data : function () {
+				return {
+					count : this.initCount
+				}
+			}
+		});
+
+		Vue.component('my-component4', {
+			props : ['width'],
+			template : '<div :style="style"></div>',
+			computed : {
+				style : function () {
+					return {
+						width : this.width + 'px'
+					}
+				}
+			}
+		});
+
+		Vue.component('my-component5', {
+			//当 prop 需要验证时，就需要对象写法。
+			props : {
+				propA : Number,
+				propB : [String, Number],
+				propC : {
+					type : Boolean,
+					default : true
+				},
+				propD : {
+					type : Number,
+					required : true
+				},
+				propE : {
+					type : Array,
+					default : function () {
+						return [];
+					}
+				},
+				propF : {
+					validataor : function (value) {
+						return value > 10;
+					}
+				}
+			}
+		})
+
+		var app = new Vue({
+			el : '#app',
+			data : {
+				parentMessage : ''
+			}
+			
+		})
+	</script>
+</body>
+</html>

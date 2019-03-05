@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		<!-- template渲染之后不会出现在界面上面 -->
+		<!-- 会尽可能地复用已有的元素而非重新渲染 -->
+		<template v-if="type === 'name'">
+			<label>用户名：</label>
+			<!-- key属性的作用是就是防止Vue的复制 -->
+			<input placeholder="请输入用户名" key="name-input">
+		</template>
+		<template v-else>
+			<label>邮箱：</label>
+			<input placeholder="输入邮箱" key="mail-input">
+		</template>
+		<button @click="handleToggleClick">切换输入类型</button>
+	</div>
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el : '#app',
+			data : {
+				type : 'name'
+			},
+			methods : {
+				handleToggleClick : function () {
+					this.type = this.type === 'name' ? 'mail' : 'name'
+				}
+			}
+			
+		})
+	</script>
+</body>
+</html>

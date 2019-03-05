@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		{{ message }}
+	</div>
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		Vue.component('my-component', {
+			template : '<button @click="handleDispatch">派发事件</button>',
+			methods : {
+				handleDispatch : function () {
+					this.$dispatch('on-message', '来自内部组件的数据')
+				}
+			}
+		});
+
+		//这两种方法 旦发出事件后，任何组件都是可以接收到的 就近原则 而且会在第 次接收到后停止冒泡，除非返回 true
+		var app = new Vue({
+			el : '#app',
+			data : {
+				message : ''
+			},
+			events : {
+				'on-message' : function (msg) {
+					this.message = msg;
+				}
+			}
+			
+		})
+	</script>
+</body>
+</html>

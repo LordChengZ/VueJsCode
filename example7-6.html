@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		{{ message }}<br>
+		<component-a></component-a>
+		<component-b></component-b>
+		<component-c ref="comA"></component-c>
+	</div>
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		var bus = new Vue();
+
+		Vue.component('component-a', {
+			template : '<button @click="handleEvent">转递事件</button>',
+			methods : {
+				handleEvent : function () {
+					bus.$emit('on-message', '来自组件component-a的内容');
+				}
+			}
+		});
+
+		Vue.component('component-b', {
+			template : '<button @click="handleEvent">通过父链直接修改数据</button>',
+			methods : {
+				handleEvent : function () {
+					this.$parent.message = '来自组件component-b的内容';
+				}
+			}
+		});
+
+		Vue.component('component-c', {
+			template : '<div>子组件</div>',
+			data : function () {
+				return {
+					message : '子组件内容'
+				}
+			}
+		});
+
+		var app = new Vue({
+			el : '#app',
+			data : {
+				message : ''
+			},
+			//也就是VUE实例创建之后
+			mounted : function () {
+				var _this = this;
+				bus.$on('on-message', function (msg) {
+					_this.message = msg;
+				});
+			},
+			methods : function () {
+				var msg = this.$refs.comA.message;
+				console.log(msg);
+			}
+			
+		})
+	</script>
+</body>
+</html>
