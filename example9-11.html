@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Vue 实例</title>
+</head>
+<body>
+	<div id="app">
+		<smart-item :data="data"></smart-item>
+		<button @click="change('img')">切换为图片组件</button>
+		<button @click="change('video')">切换为视频组件</button>
+		<button @click="change('text')">切换为文本组件</button>
+	</div>
+	<script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+	<script type="text/javascript">
+		var ImgItem = {
+			props : ['data'],
+			render : function (createElement) {
+				return createElement('div', [
+					createElement('p', '图片组件'),
+					createElement('img', {
+						attrs : {
+							src : this.data.url
+						}
+					})
+				]);
+			}
+		};
+
+		var VideoItem = {
+			props : ['data'],
+			render : function (createElement) {
+				return createElement('div', [
+					createElement('p', '视频组件'),
+					createElement('video', {
+						attrs : {
+							src : this.data.url,
+							controls : 'controls',
+							autoplay : 'autoplay'
+						}
+					})
+				]);
+			}
+		};
+
+		var TextItem = {
+			props : ['data'],
+			render : function (createElement) {
+				return createElement('div', [
+					createElement('p', '纯文本组件'),
+					createElement('p', this.data.text)
+				]);
+			}
+		};
+
+		Vue.component('smart-item', {
+			//functional 设置为 ture 可哟让组件无状态和无实例，也就是没有data 和 this 上下文, 可以让 render 返回虚拟节点可以更容易渲染
+			// context 提供临时上下文，this.level = context.props.level
+			// this.$slots.default = context.children
+			functional : true,
+			render : function (createElement, context) {
+				function getComponet () {
+					var data = context.props.data;
+
+					if (data.type === 'img') return ImgItem;
+					if (data.type === 'video') return VideoItem;
+					return 	TextItem;
+				}
+
+				return createElement(
+					getComponet(),
+					{
+						props : {
+							data : context.props.data
+						}
+					},
+					context.children
+				);
+			},
+			props : {
+				data : {
+					type : Object,
+					required : true
+				}
+			}
+		})
+
+		var app = new Vue({
+			el : '#app',
+			data : {
+				data : {}
+			},
+			methods : function (type) {
+				change : function (type) {
+					alert(123);
+					if (type === 'img') {
+						this.data = {
+							type : 'img',
+							url : 'https://raw.githubusercontent.com/iview/iview/master/assets/logo.png'
+						}
+					} else if (type === 'video') {
+						this.data = {
+							type : 'video',
+							url : 'http://vjs.zencdn.net/v/oceans.mp4'
+						}
+					} else if (type === 'text') {
+						this.data = {
+							type : 'text',
+							context : '这是一段纯文本'
+						}
+					}
+				}
+			},
+			created : function () {
+				this.change('img');
+			}
+			
+		})
+	</script>
+</body>
+</html>
